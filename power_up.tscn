@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://dw7rog0wot4t8"]
+
+[ext_resource type="Script" path="res://power_up.gd" id="1_piihx"]
+[ext_resource type="PackedScene" uid="uid://bi2k6340m7th8" path="res://roads/sign_hospital.glb" id="2_xww44"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_48hd0"]
+size = Vector3(0.1, 0.5, 0.5)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ktl6u"]
+points = PackedVector3Array(0, 0.5, 0.5, 0.5, -0.5, 0.5, 0, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+
+[node name="powerUp" type="Area3D"]
+collision_mask = 2
+script = ExtResource("1_piihx")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_48hd0")
+
+[node name="Label" type="Label3D" parent="Mesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00919, 0)
+billboard = 1
+
+[node name="sign_hospital2" parent="Mesh" instance=ExtResource("2_xww44")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0274606, -0.208215, 0.00690889)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_ktl6u")
+
+[node name="respawn" type="Timer" parent="."]
+wait_time = 3.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="respawn" to="." method="_on_respawn_timeout"]

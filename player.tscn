@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://n4n1tqpf0qsc"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_ihjfu"]
+[ext_resource type="Script" path="res://Camera3D.gd" id="2_exb63"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tsk7b"]
+
+[node name="player" type="CharacterBody3D"]
+collision_layer = 3
+script = ExtResource("1_ihjfu")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+script = ExtResource("2_exb63")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_tsk7b")
+
+[node name="gun" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.07, -0.75)
+
+[node name="saminaregen" type="Timer" parent="."]
+wait_time = 3.0
+
+[connection signal="timeout" from="saminaregen" to="." method="_on_saminaregen_timeout"]

@@ -1,0 +1,78 @@
+[gd_scene load_steps=12 format=3 uid="uid://cys6atrv4jc5w"]
+
+[ext_resource type="Script" path="res://enemy.gd" id="1_sjyh1"]
+[ext_resource type="PackedScene" uid="uid://dgwba0l8xm05c" path="res://modls with animations/Steampunk Rifle.glb" id="2_rm3du"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hrgx8"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_o6ujq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_awcx0"]
+albedo_color = Color(0.340339, 0.340339, 0.340339, 1)
+emission = Color(0.567797, 0.61051, 0.604239, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_wrr0u"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rq2y4"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_32edc"]
+material = SubResource("StandardMaterial3D_rq2y4")
+
+[sub_resource type="BoxMesh" id="BoxMesh_2glim"]
+size = Vector3(0.1, 0.5, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yw18y"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_a7ehj"]
+size = Vector3(0.1, 0.1, 0.3)
+
+[node name="enemy" type="CharacterBody3D"]
+script = ExtResource("1_sjyh1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_hrgx8")
+
+[node name="body" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+mesh = SubResource("CapsuleMesh_o6ujq")
+surface_material_override/0 = SubResource("StandardMaterial3D_awcx0")
+
+[node name="nose" type="MeshInstance3D" parent="body"]
+unique_name_in_owner = true
+transform = Transform3D(0.25, 0, 0, 0, -1.09278e-08, 0.25, 0, -0.25, -1.09278e-08, 0, 0.35, -0.280842)
+mesh = SubResource("PrismMesh_wrr0u")
+
+[node name="gun" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.07, -0.75)
+
+[node name="sight" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+target_position = Vector3(0, -20, 0)
+collision_mask = 3
+
+[node name="engage" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+avoidance_enabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.785572, 0, 0, 0, 0.100301, 0, 0, 0, 0.447373, 0, 0.382083, -0.300099)
+mesh = SubResource("CylinderMesh_32edc")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.745581, -0.666415, 0, 0.666415, 0.745581, 0.473466, 0.163827, -0.14107)
+mesh = SubResource("BoxMesh_2glim")
+surface_material_override/0 = SubResource("StandardMaterial3D_yw18y")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.511138, -0.127223, 0.850031, 0.241532, 0.970393, 0, -0.824864, 0.20531, 0.526733, 0.364555, 0, -0.359053)
+mesh = SubResource("BoxMesh_a7ehj")
+surface_material_override/0 = SubResource("StandardMaterial3D_yw18y")
+
+[node name="Steampunk Rifle" parent="." instance=ExtResource("2_rm3du")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00501607, -0.016173, -0.686736)
+
+[connection signal="timeout" from="engage" to="." method="_on_engage_timeout"]

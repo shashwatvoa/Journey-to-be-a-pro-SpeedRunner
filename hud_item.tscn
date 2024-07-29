@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c10kkwyxmfpyw"]
+
+[ext_resource type="Script" path="res://hud_item.gd" id="1_nysbv"]
+
+[node name="HUDItem" type="Label"]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("1_nysbv")
