@@ -1,1 +1,1 @@
-# Journey-to-be-a-pro-SpeedRunner
+# Its a simple game run in godot
